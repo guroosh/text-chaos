@@ -7,7 +7,7 @@ that can be applied to text strings.
 
 import random
 import re
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 
 def leet_transform(text: str) -> str:
@@ -188,7 +188,7 @@ TRANSFORMERS: Dict[str, Callable[[str], str]] = {
 }
 
 
-def get_available_modes() -> list[str]:
+def get_available_modes() -> List[str]:
     """
     Get a list of all available transformation modes.
 
