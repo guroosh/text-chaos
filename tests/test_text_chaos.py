@@ -4,8 +4,8 @@ Tests for the text-chaos library.
 
 import pytest
 
-from src.text_chaos import batch_transform, get_modes, transform
-from src.text_chaos.transformers import (
+from text_chaos import batch_transform, get_modes, transform
+from text_chaos.transformers import (
     apply_transform,
     get_available_modes,
     leet_transform,
