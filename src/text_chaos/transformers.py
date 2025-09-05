@@ -710,7 +710,7 @@ def roman_transform(text: str) -> str:
         return result
 
     # Find all numbers in the text
-    def replace_number(match: re.Match[str]) -> str:
+    def replace_number(match) -> str:
         num = int(match.group())
         return to_roman(num)
 
