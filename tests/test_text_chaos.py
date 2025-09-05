@@ -10,6 +10,7 @@ from text_chaos.transformers import (
     get_available_modes,
     leet_transform,
     mock_transform,
+    pirate_transform,
     reverse_transform,
     uwu_transform,
     zalgo_transform,
@@ -67,6 +68,27 @@ class TestTransformers:
         # Test specific pattern
         assert mock_transform("abcd") == "aBcD"
         assert mock_transform("") == ""
+
+    def test_pirate_transform(self):
+        """Test pirate speak transformation."""
+        result = pirate_transform("hello friend")
+        
+        # Should contain pirate replacements
+        assert "ahoy" in result.lower()
+        assert "matey" in result.lower()
+        
+        # Should add pirate exclamations
+        pirate_exclamations = ['arr!', 'avast!', 'shiver me timbers!', 'batten down the hatches!', 'yo ho ho!']
+        assert any(excl.lower() in result.lower() for excl in pirate_exclamations)
+        
+        # Test specific replacements
+        assert pirate_transform("you are my friend") != "you are my friend"  # Should be transformed
+        result2 = pirate_transform("yes I have money")
+        assert "aye" in result2.lower()
+        assert "doubloons" in result2.lower()
+        
+        # Test empty string
+        assert pirate_transform("") == ""
 
 
 class TestMainAPI:
@@ -129,6 +151,7 @@ class TestMainAPI:
         assert "leet" in modes
         assert "uwu" in modes
         assert "reverse" in modes
+        assert "pirate" in modes
 
 
 class TestTransformerRegistry:
@@ -138,7 +161,7 @@ class TestTransformerRegistry:
         """Test getting available transformation modes."""
         modes = get_available_modes()
 
-        expected_modes = ["leet", "uwu", "reverse", "zalgo", "mock"]
+        expected_modes = ["leet", "uwu", "reverse", "zalgo", "mock", "pirate"]
         for mode in expected_modes:
             assert mode in modes
 

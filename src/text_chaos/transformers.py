@@ -178,6 +178,92 @@ def mock_transform(text: str) -> str:
     return result
 
 
+def pirate_transform(text: str) -> str:
+    """
+    Transform text to pirate speak.
+    
+    Args:
+        text: The input text to transform
+        
+    Returns:
+        The text converted to pirate speak
+        
+    Example:
+        >>> pirate_transform("Hello friend, how are you?")
+        "Ahoy matey, how be ye? Arr!"
+    """
+    # Pirate word replacements
+    pirate_replacements = {
+        # Greetings
+        r'\bhello\b': 'ahoy',
+        r'\bhi\b': 'ahoy',
+        r'\bhey\b': 'ahoy',
+        
+        # People
+        r'\bfriend\b': 'matey',
+        r'\bfriends\b': 'mateys',
+        r'\bman\b': 'lad',
+        r'\bwoman\b': 'lass',
+        r'\bpeople\b': 'crew',
+        r'\bguys\b': 'mateys',
+        
+        # Pronouns and verbs
+        r'\byou\b': 'ye',
+        r'\byour\b': 'yer',
+        r'\byou\'re\b': 'ye be',
+        r'\bare\b': 'be',
+        r'\bmy\b': 'me',
+        r'\bover\b': 'o\'er',
+        r'\bfor\b': 'fer',
+        r'\bto\b': 'ter',
+        
+        # Common words
+        r'\bmoney\b': 'doubloons',
+        r'\bgold\b': 'treasure',
+        r'\bstop\b': 'avast',
+        r'\byes\b': 'aye',
+        r'\byeah\b': 'aye',
+        r'\bno\b': 'nay',
+        r'\bokay\b': 'aye aye',
+        r'\bok\b': 'aye',
+        r'\bdrink\b': 'grog',
+        r'\bfight\b': 'battle',
+        
+        # Places
+        r'\bhouse\b': 'cabin',
+        r'\bhome\b': 'ship',
+        r'\bbathroom\b': 'head',
+        r'\bkitchen\b': 'galley',
+        r'\bfloor\b': 'deck',
+        
+        # Fun additions
+        r'\bawesome\b': 'shipshape',
+        r'\bgreat\b': 'grand',
+        r'\bgood\b': 'fine',
+        r'\bbad\b': 'cursed',
+        r'\bterrible\b': 'scurvy',
+    }
+    
+    # Convert to lowercase for pattern matching, but preserve original case
+    result = text
+    
+    # Apply pirate replacements
+    for pattern, replacement in pirate_replacements.items():
+        # Use case-insensitive matching
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+    
+    # Add pirate exclamations
+    pirate_exclamations = ['Arr!', 'Avast!', 'Shiver me timbers!', 'Batten down the hatches!', 'Yo ho ho!']
+    
+    # Add an exclamation at the end if the text doesn't already end with punctuation
+    if result and result[-1] not in '.!?':
+        result += ', ' + random.choice(pirate_exclamations)
+    elif result and random.random() < 0.3:  # 30% chance to add exclamation even with punctuation
+        result += ' ' + random.choice(pirate_exclamations)
+    
+    return result
+
+
 # Registry of all available transformers
 TRANSFORMERS: Dict[str, Callable[[str], str]] = {
     "leet": leet_transform,
@@ -185,6 +271,7 @@ TRANSFORMERS: Dict[str, Callable[[str], str]] = {
     "reverse": reverse_transform,
     "zalgo": zalgo_transform,
     "mock": mock_transform,
+    "pirate": pirate_transform,
 }
 
 
