@@ -555,7 +555,7 @@ def piglatin_transform(text: str) -> str:
         "ello-hay orld-way"
     """
 
-    def pig_latin_word(word):
+    def pig_latin_word(word: str) -> str:
         if not word.isalpha():
             return word
 
@@ -680,7 +680,7 @@ def roman_transform(text: str) -> str:
         "the year MMXXV"
     """
 
-    def to_roman(num):
+    def to_roman(num: int) -> str:
         if num <= 0 or num > 3999:
             return str(num)  # Return original if out of range
 
@@ -710,7 +710,7 @@ def roman_transform(text: str) -> str:
         return result
 
     # Find all numbers in the text
-    def replace_number(match):
+    def replace_number(match: re.Match[str]) -> str:
         num = int(match.group())
         return to_roman(num)
 
