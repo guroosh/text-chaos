@@ -72,21 +72,29 @@ class TestTransformers:
     def test_pirate_transform(self):
         """Test pirate speak transformation."""
         result = pirate_transform("hello friend")
-        
+
         # Should contain pirate replacements
         assert "ahoy" in result.lower()
         assert "matey" in result.lower()
-        
+
         # Should add pirate exclamations
-        pirate_exclamations = ['arr!', 'avast!', 'shiver me timbers!', 'batten down the hatches!', 'yo ho ho!']
+        pirate_exclamations = [
+            "arr!",
+            "avast!",
+            "shiver me timbers!",
+            "batten down the hatches!",
+            "yo ho ho!",
+        ]
         assert any(excl.lower() in result.lower() for excl in pirate_exclamations)
-        
+
         # Test specific replacements
-        assert pirate_transform("you are my friend") != "you are my friend"  # Should be transformed
+        assert (
+            pirate_transform("you are my friend") != "you are my friend"
+        )  # Should be transformed
         result2 = pirate_transform("yes I have money")
         assert "aye" in result2.lower()
         assert "doubloons" in result2.lower()
-        
+
         # Test empty string
         assert pirate_transform("") == ""
 
