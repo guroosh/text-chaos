@@ -7,12 +7,19 @@ import pytest
 from text_chaos import batch_transform, get_modes, transform
 from text_chaos.transformers import (
     apply_transform,
+    drunk_transform,
+    emojify_transform,
     get_available_modes,
     leet_transform,
     mock_transform,
+    morse_transform,
+    piglatin_transform,
     pirate_transform,
     reverse_transform,
+    roman_transform,
+    shakespeare_transform,
     uwu_transform,
+    yoda_transform,
     zalgo_transform,
 )
 
@@ -98,6 +105,119 @@ class TestTransformers:
         # Test empty string
         assert pirate_transform("") == ""
 
+    def test_emojify_transform(self):
+        """Test emoji transformation."""
+        result = emojify_transform("I love pizza")
+        assert "❤️" in result
+        assert "🍕" in result
+
+        result2 = emojify_transform("happy dog")
+        assert "😊" in result2 or "🐶" in result2
+
+        # Test that non-matching words remain unchanged
+        assert emojify_transform("xyz") == "xyz"
+        assert emojify_transform("") == ""
+
+    def test_yoda_transform(self):
+        """Test Yoda speech transformation."""
+        result = yoda_transform("I love coding")
+        assert "coding" in result.lower()
+        assert "love" in result.lower()
+
+        result2 = yoda_transform("you are great")
+        assert "great" in result2.lower()
+
+        # Test yoda-isms
+        result3 = yoda_transform("yes")
+        assert "mmm" in result3.lower()
+
+        assert yoda_transform("") == ""
+
+    def test_drunk_transform(self):
+        """Test drunk typing transformation."""
+        # Since drunk transform is random, test multiple times
+        original = "hello there friend"
+        results = [drunk_transform(original) for _ in range(10)]
+
+        # At least some results should be different from original
+        changed = sum(1 for result in results if result != original)
+        assert changed > 0  # Should have some changes
+
+        # Test empty string
+        assert drunk_transform("") == ""
+
+        # Test non-alphabetic characters remain unchanged
+        result = drunk_transform("123!@#")
+        assert "123" in result and "!@#" in result
+
+    def test_shakespeare_transform(self):
+        """Test Shakespearean transformation."""
+        result = shakespeare_transform("you are great")
+        assert "thou" in result.lower()
+        assert "art" in result.lower()
+        assert "magnificent" in result.lower()
+
+        result2 = shakespeare_transform("yes")
+        assert "aye" in result2.lower()
+
+        result3 = shakespeare_transform("hello")
+        assert "hail" in result3.lower()
+
+        assert shakespeare_transform("") == ""
+
+    def test_piglatin_transform(self):
+        """Test Pig Latin transformation."""
+        # Words starting with consonants
+        assert "ello" in piglatin_transform("hello").lower()
+        assert "ay" in piglatin_transform("hello").lower()
+
+        # Words starting with vowels
+        result = piglatin_transform("apple")
+        assert "way" in result.lower()
+
+        # Test case preservation
+        result2 = piglatin_transform("Hello")
+        assert result2[0].isupper()  # First letter should be uppercase
+
+        assert piglatin_transform("") == ""
+
+    def test_morse_transform(self):
+        """Test Morse code transformation."""
+        result = morse_transform("hello")
+
+        # Should contain morse code patterns
+        assert "." in result or "-" in result
+        assert " " in result  # Spaces between morse letters
+
+        # Test specific letter
+        result2 = morse_transform("a")
+        assert ".-" in result2
+
+        # Test space handling
+        result3 = morse_transform("a b")
+        assert "/" in result3  # Spaces become /
+
+        assert morse_transform("") == ""
+
+    def test_roman_transform(self):
+        """Test Roman numeral transformation."""
+        result = roman_transform("the year 2025")
+        assert "MMXXV" in result
+
+        result2 = roman_transform("I have 5 cats")
+        assert "V" in result2
+
+        result3 = roman_transform("born in 1990")
+        assert "MCMXC" in result3
+
+        # Test edge cases
+        assert roman_transform("no numbers here") == "no numbers here"
+        assert roman_transform("") == ""
+
+        # Test out of range numbers (should remain unchanged)
+        result4 = roman_transform("the year 5000")
+        assert "5000" in result4  # Should not be converted
+
 
 class TestMainAPI:
     """Test the main API functions."""
@@ -160,6 +280,13 @@ class TestMainAPI:
         assert "uwu" in modes
         assert "reverse" in modes
         assert "pirate" in modes
+        assert "emojify" in modes
+        assert "yoda" in modes
+        assert "drunk" in modes
+        assert "shakespeare" in modes
+        assert "piglatin" in modes
+        assert "morse" in modes
+        assert "roman" in modes
 
 
 class TestTransformerRegistry:
@@ -169,7 +296,21 @@ class TestTransformerRegistry:
         """Test getting available transformation modes."""
         modes = get_available_modes()
 
-        expected_modes = ["leet", "uwu", "reverse", "zalgo", "mock", "pirate"]
+        expected_modes = [
+            "leet",
+            "uwu",
+            "reverse",
+            "zalgo",
+            "mock",
+            "pirate",
+            "emojify",
+            "yoda",
+            "drunk",
+            "shakespeare",
+            "piglatin",
+            "morse",
+            "roman",
+        ]
         for mode in expected_modes:
             assert mode in modes
 

@@ -267,6 +267,456 @@ def pirate_transform(text: str) -> str:
     return result
 
 
+def emojify_transform(text: str) -> str:
+    """
+    Replace words with corresponding emojis.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text with words replaced by emojis
+
+    Example:
+        >>> emojify_transform("I love pizza")
+        "I ❤️ 🍕"
+    """
+    emoji_map = {
+        # Emotions
+        r"\blove\b": "❤️",
+        r"\bheart\b": "❤️",
+        r"\bhappy\b": "😊",
+        r"\bsad\b": "😢",
+        r"\bangry\b": "😠",
+        r"\bsmile\b": "😊",
+        r"\bcry\b": "😢",
+        r"\blaugh\b": "😂",
+        # Food
+        r"\bpizza\b": "🍕",
+        r"\bburger\b": "🍔",
+        r"\bcoffee\b": "☕",
+        r"\bbeer\b": "🍺",
+        r"\bwine\b": "🍷",
+        r"\bcake\b": "🎂",
+        r"\bapple\b": "🍎",
+        r"\bbanana\b": "🍌",
+        r"\btaco\b": "🌮",
+        r"\bsushi\b": "🍣",
+        r"\bbread\b": "🍞",
+        r"\bchocolate\b": "🍫",
+        # Animals
+        r"\bdog\b": "🐶",
+        r"\bcat\b": "🐱",
+        r"\bbird\b": "🐦",
+        r"\bfish\b": "🐟",
+        r"\bcow\b": "🐄",
+        r"\bpig\b": "🐷",
+        r"\bmonkey\b": "🐵",
+        r"\bhorse\b": "🐴",
+        # Nature
+        r"\bsun\b": "☀️",
+        r"\bmoon\b": "🌙",
+        r"\bstar\b": "⭐",
+        r"\btree\b": "🌳",
+        r"\bflower\b": "🌸",
+        r"\bfire\b": "🔥",
+        r"\bwater\b": "💧",
+        r"\bsnow\b": "❄️",
+        # Objects
+        r"\bcar\b": "🚗",
+        r"\bhouse\b": "🏠",
+        r"\bphone\b": "📱",
+        r"\bcomputer\b": "💻",
+        r"\bbook\b": "📚",
+        r"\bmusic\b": "🎵",
+        r"\bgame\b": "🎮",
+        r"\bball\b": "⚽",
+        # Actions
+        r"\brun\b": "🏃",
+        r"\bwalk\b": "🚶",
+        r"\bdance\b": "💃",
+        r"\bsleep\b": "😴",
+        r"\bwork\b": "💼",
+        r"\btravel\b": "✈️",
+        r"\bshopping\b": "🛒",
+        r"\bcooking\b": "👨‍🍳",
+    }
+
+    result = text
+    for pattern, emoji in emoji_map.items():
+        result = re.sub(pattern, emoji, result, flags=re.IGNORECASE)
+
+    return result
+
+
+def yoda_transform(text: str) -> str:
+    """
+    Transform text to Yoda-style speech patterns.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text rearranged in Yoda's speech pattern
+
+    Example:
+        >>> yoda_transform("I love coding")
+        "Coding, I love"
+    """
+    # Simple Yoda patterns - move verb/object to front
+    yoda_patterns = [
+        # "I [verb] [object]" -> "[object], I [verb]"
+        (r"\bi\s+(love|like|hate|want|need|have)\s+(\w+)", r"\2, I \1"),
+        # "You are [adjective]" -> "[adjective], you are"
+        (r"\byou\s+are\s+(\w+)", r"\1, you are"),
+        # "It is [adjective]" -> "[adjective], it is"
+        (r"\bit\s+is\s+(\w+)", r"\1, it is"),
+        # "I am [adjective]" -> "[adjective], I am"
+        (r"\bi\s+am\s+(\w+)", r"\1, I am"),
+        # "We should [verb]" -> "[verb], we should"
+        (r"\bwe\s+should\s+(\w+)", r"\1, we should"),
+        # "I will [verb]" -> "[verb], I will"
+        (r"\bi\s+will\s+(\w+)", r"\1, I will"),
+    ]
+
+    result = text
+    for pattern, replacement in yoda_patterns:
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+
+    # Add some Yoda-isms
+    yoda_additions = [
+        (r"\byes\b", "mmm, yes"),
+        (r"\bno\b", "mmm, no"),
+        (r"\bokay\b", "mmm, okay"),
+    ]
+
+    for pattern, replacement in yoda_additions:
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+
+    return result
+
+
+def drunk_transform(text: str) -> str:
+    """
+    Add typos and missing letters to simulate drunk typing.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text with drunk-style typos
+
+    Example:
+        >>> drunk_transform("hello there")
+        "helo tehre"
+    """
+    result = ""
+    i = 0
+
+    while i < len(text):
+        char = text[i]
+
+        if char.isalpha():
+            # 20% chance to introduce a typo
+            if random.random() < 0.2:
+                typo_type = random.choice(["skip", "swap", "double", "wrong"])
+
+                if typo_type == "skip":
+                    # Skip this character (missing letter)
+                    pass
+                elif typo_type == "swap" and i < len(text) - 1:
+                    # Swap with next character
+                    if text[i + 1].isalpha():
+                        result += text[i + 1] + char
+                        i += 1  # Skip next char since we used it
+                    else:
+                        result += char
+                elif typo_type == "double":
+                    # Double the character
+                    result += char + char
+                elif typo_type == "wrong":
+                    # Replace with nearby keyboard key
+                    keyboard_neighbors = {
+                        "a": "s",
+                        "b": "v",
+                        "c": "x",
+                        "d": "s",
+                        "e": "r",
+                        "f": "d",
+                        "g": "f",
+                        "h": "g",
+                        "i": "u",
+                        "j": "h",
+                        "k": "j",
+                        "l": "k",
+                        "m": "n",
+                        "n": "b",
+                        "o": "i",
+                        "p": "o",
+                        "q": "w",
+                        "r": "e",
+                        "s": "a",
+                        "t": "r",
+                        "u": "y",
+                        "v": "c",
+                        "w": "q",
+                        "x": "z",
+                        "y": "t",
+                        "z": "x",
+                    }
+                    wrong_char = keyboard_neighbors.get(char.lower(), char)
+                    if char.isupper():
+                        wrong_char = wrong_char.upper()
+                    result += wrong_char
+                else:
+                    result += char
+            else:
+                result += char
+        else:
+            result += char
+
+        i += 1
+
+    return result
+
+
+def shakespeare_transform(text: str) -> str:
+    """
+    Transform text to Shakespearean English.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text in Shakespearean style
+
+    Example:
+        >>> shakespeare_transform("you are great")
+        "thou art magnificent"
+    """
+    shakespeare_replacements = {
+        # Pronouns
+        r"\byou\b": "thou",
+        r"\byour\b": "thy",
+        r"\byou\'re\b": "thou art",
+        r"\byours\b": "thine",
+        # Verbs
+        r"\bare\b": "art",
+        r"\bdo\b": "dost",
+        r"\bdoes\b": "doth",
+        r"\bhave\b": "hast",
+        r"\bhas\b": "hath",
+        r"\bwill\b": "shall",
+        r"\bcan\b": "canst",
+        # Common words
+        r"\bbefore\b": "ere",
+        r"\bbetween\b": "betwixt",
+        r"\bhere\b": "hither",
+        r"\bthere\b": "thither",
+        r"\bwhere\b": "whither",
+        r"\bmust\b": "must needs",
+        # Adjectives
+        r"\bgreat\b": "magnificent",
+        r"\bgood\b": "fair",
+        r"\bbad\b": "ill",
+        r"\bbeautiful\b": "beauteous",
+        r"\bstrange\b": "passing strange",
+        r"\bsmart\b": "wise",
+        r"\bfunny\b": "mirthful",
+        r"\bquick\b": "swift",
+        # Expressions
+        r"\byes\b": "aye",
+        r"\bno\b": "nay",
+        r"\bokay\b": "verily",
+        r"\bhello\b": "hail",
+        r"\bgoodbye\b": "farewell",
+        r"\bmaybe\b": "mayhap",
+    }
+
+    result = text
+    for pattern, replacement in shakespeare_replacements.items():
+        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
+
+    return result
+
+
+def piglatin_transform(text: str) -> str:
+    """
+    Transform text to Pig Latin.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text converted to Pig Latin
+
+    Example:
+        >>> piglatin_transform("hello world")
+        "ello-hay orld-way"
+    """
+
+    def pig_latin_word(word):
+        if not word.isalpha():
+            return word
+
+        vowels = "aeiouAEIOU"
+
+        # If word starts with vowel, add "way"
+        if word[0] in vowels:
+            return word + "way"
+
+        # Find first vowel
+        first_vowel = -1
+        for i, char in enumerate(word):
+            if char in vowels:
+                first_vowel = i
+                break
+
+        if first_vowel == -1:  # No vowels found
+            return word + "ay"
+
+        # Move consonants to end and add "ay"
+        consonants = word[:first_vowel]
+        rest = word[first_vowel:]
+
+        return rest + consonants + "ay"
+
+    words = re.findall(r"\b\w+\b|\W+", text)
+    result = ""
+
+    for word_match in words:
+        if re.match(r"\w+", word_match):
+            # Preserve case
+            if word_match.isupper():
+                pig_word = pig_latin_word(word_match.lower()).upper()
+            elif word_match[0].isupper():
+                pig_word = pig_latin_word(word_match.lower())
+                pig_word = pig_word[0].upper() + pig_word[1:]
+            else:
+                pig_word = pig_latin_word(word_match)
+            result += pig_word
+        else:
+            result += word_match
+
+    return result
+
+
+def morse_transform(text: str) -> str:
+    """
+    Transform text to Morse code.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text converted to Morse code
+
+    Example:
+        >>> morse_transform("hello")
+        ".... . .-.. .-.. ---"
+    """
+    morse_code = {
+        "A": ".-",
+        "B": "-...",
+        "C": "-.-.",
+        "D": "-..",
+        "E": ".",
+        "F": "..-.",
+        "G": "--.",
+        "H": "....",
+        "I": "..",
+        "J": ".---",
+        "K": "-.-",
+        "L": ".-..",
+        "M": "--",
+        "N": "-.",
+        "O": "---",
+        "P": ".--.",
+        "Q": "--.-",
+        "R": ".-.",
+        "S": "...",
+        "T": "-",
+        "U": "..-",
+        "V": "...-",
+        "W": ".--",
+        "X": "-..-",
+        "Y": "-.--",
+        "Z": "--..",
+        "0": "-----",
+        "1": ".----",
+        "2": "..---",
+        "3": "...--",
+        "4": "....-",
+        "5": ".....",
+        "6": "-....",
+        "7": "--...",
+        "8": "---..",
+        "9": "----.",
+        " ": "/",
+    }
+
+    result = []
+    for char in text.upper():
+        if char in morse_code:
+            result.append(morse_code[char])
+        elif char == " ":
+            result.append("/")
+
+    return " ".join(result)
+
+
+def roman_transform(text: str) -> str:
+    """
+    Transform numbers to Roman numerals.
+
+    Args:
+        text: The input text to transform
+
+    Returns:
+        The text with numbers converted to Roman numerals
+
+    Example:
+        >>> roman_transform("the year 2025")
+        "the year MMXXV"
+    """
+
+    def to_roman(num):
+        if num <= 0 or num > 3999:
+            return str(num)  # Return original if out of range
+
+        values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+        numerals = [
+            "M",
+            "CM",
+            "D",
+            "CD",
+            "C",
+            "XC",
+            "L",
+            "XL",
+            "X",
+            "IX",
+            "V",
+            "IV",
+            "I",
+        ]
+
+        result = ""
+        for i, value in enumerate(values):
+            count = num // value
+            if count:
+                result += numerals[i] * count
+                num -= value * count
+        return result
+
+    # Find all numbers in the text
+    def replace_number(match):
+        num = int(match.group())
+        return to_roman(num)
+
+    return re.sub(r"\b\d+\b", replace_number, text)
+
+
 # Registry of all available transformers
 TRANSFORMERS: Dict[str, Callable[[str], str]] = {
     "leet": leet_transform,
@@ -275,6 +725,13 @@ TRANSFORMERS: Dict[str, Callable[[str], str]] = {
     "zalgo": zalgo_transform,
     "mock": mock_transform,
     "pirate": pirate_transform,
+    "emojify": emojify_transform,
+    "yoda": yoda_transform,
+    "drunk": drunk_transform,
+    "shakespeare": shakespeare_transform,
+    "piglatin": piglatin_transform,
+    "morse": morse_transform,
+    "roman": roman_transform,
 }
 
 
