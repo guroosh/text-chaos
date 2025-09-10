@@ -2,14 +2,14 @@
 
 [![PyPI version](https://badge.fury.io/py/text-chaos.svg)](https://badge.fury.io/py/text-chaos)
 [![Python](https://img.shields.io/pypi/pyversions/text-chaos.svg)](https://pypi.python.org/pypi/text-chaos)
-[![Tests](https://github.com/yourusername/text-chaos/workflows/Tests/badge.svg)](https://github.com/yourusername/text-chaos/actions)
+[![Tests](https://github.com/guroosh/text-chaos/workflows/Tests/badge.svg)](https://github.com/guroosh/text-chaos/actions)
 
 A fun Python library for playful string manipulations! Transform your text with various chaotic and amusing effects like leet speak, uwu-ification, zalgo corruption, and more.
 
 ## ✨ Features
 
 - 🔥 **Simple API**: One function call to rule them all
-- 🎯 **Multiple transformations**: leet, uwu, reverse, zalgo, mock, and more
+- 🎯 **Multiple transformations**: leet, uwu, drunk, mock, pirate, and more
 - 📦 **Extensible**: Easy to add custom transformations
 - 🔍 **Type hints**: Full typing support for better IDE experience  
 - 🧪 **Well tested**: Comprehensive test suite with pytest
@@ -34,11 +34,11 @@ text_chaos.transform("Hello World!")
 text_chaos.transform("Hello World!", mode="uwu")
 # Output: "Hewwo Wowwd! uwu"
 
-text_chaos.transform("Hello World!", mode="reverse") 
-# Output: "!dlroW olleH"
+text_chaos.transform("Hello World!", mode="drunk") 
+# Output: "Helo Worrd!"
 
-text_chaos.transform("Hello World!", mode="mock")
-# Output: "hElLo WoRlD!"
+text_chaos.transform("Hello World!", mode="pirate")
+# Output: "ahoy World! Arr!"
 
 # Transform multiple strings at once
 text_chaos.batch_transform(["Hello", "World"], mode="leet")
@@ -46,7 +46,7 @@ text_chaos.batch_transform(["Hello", "World"], mode="leet")
 
 # See all available transformation modes
 text_chaos.get_modes()
-# Output: ['leet', 'uwu', 'reverse', 'zalgo', 'mock']
+# Output: ['leet', 'uwu', 'drunk', 'mock', 'pirate']
 ```
 
 ## 🎨 Available Transformations
@@ -55,9 +55,9 @@ text_chaos.get_modes()
 |------|-------------|---------|
 | `leet` | Convert to leet speak (1337) | `Hello` → `H3110` |
 | `uwu` | UwU-ify text with cute speak | `Hello World` → `Hewwo Wowwd uwu` |
-| `reverse` | Reverse the text | `Hello` → `olleH` |
-| `zalgo` | Add zalgo/corruption effects | `Hello` → `H̴̰ë́l̶l̴̰ö̵` |
-| `mock` | aLtErNaTiNg CaPs (mocking SpongeBob) | `Hello World` → `hElLo WoRlD` |
+| `drunk` | Add typos and drunk typing errors | `Hello World` → `Helo Worrld` |
+| `mock` | Add conversational fillers and pauses | `This is fine` → `This... uhh is, like, fine` |
+| `pirate` | Transform to pirate speak | `Hello friend` → `Ahoy matey! Arr!` |
 
 ## 🔧 API Reference
 
@@ -100,7 +100,7 @@ Get a list of all available transformation modes.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/text-chaos.git
+git clone https://github.com/guroosh/text-chaos.git
 cd text-chaos
 
 # Install in development mode with dev dependencies
@@ -193,14 +193,14 @@ text = "Python is awesome"
 print("Original:", text)
 print("Leet:", text_chaos.transform(text, "leet"))
 print("UwU:", text_chaos.transform(text, "uwu"))  
-print("Reverse:", text_chaos.transform(text, "reverse"))
+print("Drunk:", text_chaos.transform(text, "drunk"))
 print("Mock:", text_chaos.transform(text, "mock"))
-print("Zalgo:", text_chaos.transform(text, "zalgo"))
+print("Pirate:", text_chaos.transform(text, "pirate"))
 
 # Chain transformations manually
 chaotic_text = text_chaos.transform(text, "leet")
-chaotic_text = text_chaos.transform(chaotic_text, "reverse")
-print("Leet + Reverse:", chaotic_text)
+chaotic_text = text_chaos.transform(chaotic_text, "uwu")
+print("Leet + UwU:", chaotic_text)
 ```
 
 ## 🌟 Star History

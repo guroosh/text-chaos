@@ -9,6 +9,11 @@ import random
 import re
 from typing import Callable, Dict, List
 
+from .pirate_data import PIRATE_REPLACEMENTS, PIRATE_EXCLAMATIONS
+from .emoji_data import EMOJI_MAP
+from .shakespeare_data import SHAKESPEARE_REPLACEMENTS
+from .yoda_transformer import YodaTransformer
+
 
 def leet_transform(text: str) -> str:
     """
@@ -80,21 +85,41 @@ def uwu_transform(text: str) -> str:
     return text
 
 
-def reverse_transform(text: str) -> str:
+def mallock_transform(text: str) -> str:
     """
-    Reverse the input text.
+    Transform text into a memory dump style format with hexadecimal addresses.
 
     Args:
         text: The input text to transform
 
     Returns:
-        The reversed text
+        The text formatted as a memory dump with hex addresses
 
     Example:
-        >>> reverse_transform("Hello World")
-        "dlroW olleH"
+        >>> mallock_transform("Hello")
+        "0x1000:H0x1001:e0x1002:l0x1003:l0x1004:ok"
     """
-    return text[::-1]
+    if not text:
+        return text
+        
+    result = []
+    base_address = 0x1000
+    max_gap = 1
+    addr = base_address
+    
+    for i, char in enumerate(text):
+        gap = random.randint(0, max_gap)
+        for _ in range(gap):
+            result.append(f"0x{addr:X}:_")
+            addr += 1
+        result.append(f"0x{addr:X}:{char}")
+        addr += 1
+    
+    # Append 'k' only to the final pointer
+    if result:
+        result[-1] = result[-1] + " k"
+    
+    return "".join(result)
 
 
 def zalgo_transform(text: str) -> str:
@@ -153,29 +178,76 @@ def zalgo_transform(text: str) -> str:
 
 def mock_transform(text: str) -> str:
     """
-    Transform text to mocking SpongeBob case (alternating caps).
+    Transform text by randomly inserting pauses, filler words, and "uhh".
 
     Args:
         text: The input text to transform
 
     Returns:
-        The text in alternating caps
+        The text with conversational fillers and pauses
 
     Example:
-        >>> mock_transform("Hello World")
-        "hElLo WoRlD"
+        >>> mock_transform("This is fine")
+        "This... uhh is, like, fine... whatever..."
     """
-    result = ""
-    upper = False
-
-    for char in text:
-        if char.isalpha():
-            result += char.upper() if upper else char.lower()
-            upper = not upper
+    if not text.strip():
+        return text
+    
+    # Filler words and expressions
+    fillers = [
+        "uhh", "like", "you know", "I mean", "whatever", "umm", 
+        "sort of", "kind of", "basically", "actually", "honestly"
+    ]
+    
+    # Pauses and hesitations
+    pauses = ["...", "... ", " ...", " ... "]
+    
+    # Split text into words while preserving punctuation
+    words = re.findall(r'\w+|[^\w\s]', text)
+    if not words:
+        return text
+    
+    result = []
+    
+    for i, word in enumerate(words):
+        # Add the current word/punctuation
+        if word.isalpha():
+            # 25% chance to add a filler before the word
+            if random.random() < 0.25:
+                filler = random.choice(fillers)
+                if i > 0:  # Not the first word
+                    result.append(", " + filler)
+                else:
+                    result.append(filler)
+            
+            result.append(word)
+            
+            # 20% chance to add a pause after the word
+            if random.random() < 0.20:
+                result.append(random.choice(pauses))
+            
+            # 15% chance to add a filler after the word
+            if random.random() < 0.15 and i < len(words) - 1:  # Not the last word
+                result.append(", " + random.choice(fillers))
         else:
-            result += char
-
-    return result
+            # Handle punctuation
+            result.append(word)
+    
+    # Join and clean up spacing
+    final_text = "".join(result)
+    
+    # Clean up multiple spaces and awkward punctuation
+    final_text = re.sub(r'\s+', ' ', final_text)  # Multiple spaces to single
+    final_text = re.sub(r'\s*,\s*,', ',', final_text)  # Double commas
+    final_text = re.sub(r'\s*\.\s*\.', '.', final_text)  # Double periods (not ellipsis)
+    final_text = final_text.strip()
+    
+    # 30% chance to add a trailing filler at the end
+    if random.random() < 0.30:
+        trailing_fillers = ["whatever...", "you know?", "I guess...", "or something..."]
+        final_text += ", " + random.choice(trailing_fillers) + ""
+    
+    return final_text
 
 
 def pirate_transform(text: str) -> str:
@@ -192,82 +264,26 @@ def pirate_transform(text: str) -> str:
         >>> pirate_transform("Hello friend, how are you?")
         "Ahoy matey, how be ye? Arr!"
     """
-    # Pirate word replacements
-    pirate_replacements = {
-        # Greetings
-        r"\bhello\b": "ahoy",
-        r"\bhi\b": "ahoy",
-        r"\bhey\b": "ahoy",
-        # People
-        r"\bfriend\b": "matey",
-        r"\bfriends\b": "mateys",
-        r"\bman\b": "lad",
-        r"\bwoman\b": "lass",
-        r"\bpeople\b": "crew",
-        r"\bguys\b": "mateys",
-        # Pronouns and verbs
-        r"\byou\b": "ye",
-        r"\byour\b": "yer",
-        r"\byou\'re\b": "ye be",
-        r"\bare\b": "be",
-        r"\bmy\b": "me",
-        r"\bover\b": "o'er",
-        r"\bfor\b": "fer",
-        r"\bto\b": "ter",
-        # Common words
-        r"\bmoney\b": "doubloons",
-        r"\bgold\b": "treasure",
-        r"\bstop\b": "avast",
-        r"\byes\b": "aye",
-        r"\byeah\b": "aye",
-        r"\bno\b": "nay",
-        r"\bokay\b": "aye aye",
-        r"\bok\b": "aye",
-        r"\bdrink\b": "grog",
-        r"\bfight\b": "battle",
-        # Places
-        r"\bhouse\b": "cabin",
-        r"\bhome\b": "ship",
-        r"\bbathroom\b": "head",
-        r"\bkitchen\b": "galley",
-        r"\bfloor\b": "deck",
-        # Fun additions
-        r"\bawesome\b": "shipshape",
-        r"\bgreat\b": "grand",
-        r"\bgood\b": "fine",
-        r"\bbad\b": "cursed",
-        r"\bterrible\b": "scurvy",
-    }
-
     # Convert to lowercase for pattern matching, but preserve original case
     result = text
 
     # Apply pirate replacements
-    for pattern, replacement in pirate_replacements.items():
+    for pattern, replacement in PIRATE_REPLACEMENTS.items():
         # Use case-insensitive matching
         result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
 
-    # Add pirate exclamations
-    pirate_exclamations = [
-        "Arr!",
-        "Avast!",
-        "Shiver me timbers!",
-        "Batten down the hatches!",
-        "Yo ho ho!",
-    ]
-
     # Add an exclamation at the end if the text doesn't already end with punctuation
     if result and result[-1] not in ".!?":
-        result += ", " + random.choice(pirate_exclamations)
+        result += ", " + random.choice(PIRATE_EXCLAMATIONS)
     elif (
         result and random.random() < 0.3
     ):  # 30% chance to add exclamation even with punctuation
-        result += " " + random.choice(pirate_exclamations)
+        result += " " + random.choice(PIRATE_EXCLAMATIONS)
 
     return result
 
 
-def emojify_transform(text: str) -> str:
+def emoji_transform(text: str) -> str:
     """
     Replace words with corresponding emojis.
 
@@ -278,122 +294,40 @@ def emojify_transform(text: str) -> str:
         The text with words replaced by emojis
 
     Example:
-        >>> emojify_transform("I love pizza")
+        >>> emoji_transform("I love pizza")
         "I ❤️ 🍕"
     """
-    emoji_map = {
-        # Emotions
-        r"\blove\b": "❤️",
-        r"\bheart\b": "❤️",
-        r"\bhappy\b": "😊",
-        r"\bsad\b": "😢",
-        r"\bangry\b": "😠",
-        r"\bsmile\b": "😊",
-        r"\bcry\b": "😢",
-        r"\blaugh\b": "😂",
-        # Food
-        r"\bpizza\b": "🍕",
-        r"\bburger\b": "🍔",
-        r"\bcoffee\b": "☕",
-        r"\bbeer\b": "🍺",
-        r"\bwine\b": "🍷",
-        r"\bcake\b": "🎂",
-        r"\bapple\b": "🍎",
-        r"\bbanana\b": "🍌",
-        r"\btaco\b": "🌮",
-        r"\bsushi\b": "🍣",
-        r"\bbread\b": "🍞",
-        r"\bchocolate\b": "🍫",
-        # Animals
-        r"\bdog\b": "🐶",
-        r"\bcat\b": "🐱",
-        r"\bbird\b": "🐦",
-        r"\bfish\b": "🐟",
-        r"\bcow\b": "🐄",
-        r"\bpig\b": "🐷",
-        r"\bmonkey\b": "🐵",
-        r"\bhorse\b": "🐴",
-        # Nature
-        r"\bsun\b": "☀️",
-        r"\bmoon\b": "🌙",
-        r"\bstar\b": "⭐",
-        r"\btree\b": "🌳",
-        r"\bflower\b": "🌸",
-        r"\bfire\b": "🔥",
-        r"\bwater\b": "💧",
-        r"\bsnow\b": "❄️",
-        # Objects
-        r"\bcar\b": "🚗",
-        r"\bhouse\b": "🏠",
-        r"\bphone\b": "📱",
-        r"\bcomputer\b": "💻",
-        r"\bbook\b": "📚",
-        r"\bmusic\b": "🎵",
-        r"\bgame\b": "🎮",
-        r"\bball\b": "⚽",
-        # Actions
-        r"\brun\b": "🏃",
-        r"\bwalk\b": "🚶",
-        r"\bdance\b": "💃",
-        r"\bsleep\b": "😴",
-        r"\bwork\b": "💼",
-        r"\btravel\b": "✈️",
-        r"\bshopping\b": "🛒",
-        r"\bcooking\b": "👨‍🍳",
-    }
-
     result = text
-    for pattern, emoji in emoji_map.items():
+    for pattern, emoji in EMOJI_MAP.items():
         result = re.sub(pattern, emoji, result, flags=re.IGNORECASE)
 
     return result
 
 
+# Create a global Yoda transformer instance for efficiency
+_yoda_transformer = None
+
 def yoda_transform(text: str) -> str:
     """
-    Transform text to Yoda-style speech patterns.
+    Transform text to Yoda-style speech patterns using advanced linguistic analysis.
 
     Args:
         text: The input text to transform
 
     Returns:
-        The text rearranged in Yoda's speech pattern
+        The text rearranged in Yoda's speech pattern with advanced transformations
 
     Example:
         >>> yoda_transform("I love coding")
         "Coding, I love"
+        >>> yoda_transform("You are very strong")
+        "Very strong, you are, mmm"
     """
-    # Simple Yoda patterns - move verb/object to front
-    yoda_patterns = [
-        # "I [verb] [object]" -> "[object], I [verb]"
-        (r"\bi\s+(love|like|hate|want|need|have)\s+(\w+)", r"\2, I \1"),
-        # "You are [adjective]" -> "[adjective], you are"
-        (r"\byou\s+are\s+(\w+)", r"\1, you are"),
-        # "It is [adjective]" -> "[adjective], it is"
-        (r"\bit\s+is\s+(\w+)", r"\1, it is"),
-        # "I am [adjective]" -> "[adjective], I am"
-        (r"\bi\s+am\s+(\w+)", r"\1, I am"),
-        # "We should [verb]" -> "[verb], we should"
-        (r"\bwe\s+should\s+(\w+)", r"\1, we should"),
-        # "I will [verb]" -> "[verb], I will"
-        (r"\bi\s+will\s+(\w+)", r"\1, I will"),
-    ]
-
-    result = text
-    for pattern, replacement in yoda_patterns:
-        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
-
-    # Add some Yoda-isms
-    yoda_additions = [
-        (r"\byes\b", "mmm, yes"),
-        (r"\bno\b", "mmm, no"),
-        (r"\bokay\b", "mmm, okay"),
-    ]
-
-    for pattern, replacement in yoda_additions:
-        result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
-
-    return result
+    global _yoda_transformer
+    if _yoda_transformer is None:
+        _yoda_transformer = YodaTransformer()
+    
+    return _yoda_transformer.transform(text, add_wisdom=True)
 
 
 def drunk_transform(text: str) -> str:
@@ -494,47 +428,8 @@ def shakespeare_transform(text: str) -> str:
         >>> shakespeare_transform("you are great")
         "thou art magnificent"
     """
-    shakespeare_replacements = {
-        # Pronouns
-        r"\byou\b": "thou",
-        r"\byour\b": "thy",
-        r"\byou\'re\b": "thou art",
-        r"\byours\b": "thine",
-        # Verbs
-        r"\bare\b": "art",
-        r"\bdo\b": "dost",
-        r"\bdoes\b": "doth",
-        r"\bhave\b": "hast",
-        r"\bhas\b": "hath",
-        r"\bwill\b": "shall",
-        r"\bcan\b": "canst",
-        # Common words
-        r"\bbefore\b": "ere",
-        r"\bbetween\b": "betwixt",
-        r"\bhere\b": "hither",
-        r"\bthere\b": "thither",
-        r"\bwhere\b": "whither",
-        r"\bmust\b": "must needs",
-        # Adjectives
-        r"\bgreat\b": "magnificent",
-        r"\bgood\b": "fair",
-        r"\bbad\b": "ill",
-        r"\bbeautiful\b": "beauteous",
-        r"\bstrange\b": "passing strange",
-        r"\bsmart\b": "wise",
-        r"\bfunny\b": "mirthful",
-        r"\bquick\b": "swift",
-        # Expressions
-        r"\byes\b": "aye",
-        r"\bno\b": "nay",
-        r"\bokay\b": "verily",
-        r"\bhello\b": "hail",
-        r"\bgoodbye\b": "farewell",
-        r"\bmaybe\b": "mayhap",
-    }
-
     result = text
-    for pattern, replacement in shakespeare_replacements.items():
+    for pattern, replacement in SHAKESPEARE_REPLACEMENTS.items():
         result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
 
     return result
@@ -721,13 +616,13 @@ def roman_transform(text: str) -> str:
 TRANSFORMERS: Dict[str, Callable[[str], str]] = {
     "leet": leet_transform,
     "uwu": uwu_transform,
-    "reverse": reverse_transform,
-    "zalgo": zalgo_transform,
+    "drunk": drunk_transform,
     "mock": mock_transform,
     "pirate": pirate_transform,
-    "emojify": emojify_transform,
+    "emoji": emoji_transform,
     "yoda": yoda_transform,
-    "drunk": drunk_transform,
+    "mallock": mallock_transform,
+    "zalgo": zalgo_transform,
     "shakespeare": shakespeare_transform,
     "piglatin": piglatin_transform,
     "morse": morse_transform,
