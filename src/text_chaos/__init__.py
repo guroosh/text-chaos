@@ -10,7 +10,7 @@ from typing import List, Union
 from .transformers import TRANSFORMERS, apply_transform, get_available_modes
 
 # Version
-__version__ = "0.2.0"
+__version__ = "1.0.2"
 
 # Public API
 __all__ = ["transform", "get_available_modes", "batch_transform", "__version__"]

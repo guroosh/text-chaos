@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "text-chaos"
-version = "0.2.0"
+version = "1.0.2"
 description = "A fun library for playful string manipulations like leetify, uwuify, zalgo, and more!"
 readme = "README.md"
 license = { file = "LICENSE" }
