@@ -52,13 +52,11 @@ PIRATE_REPLACEMENTS: Dict[str, str] = {
     r"\bgood\b": "fine",
     r"\bbad\b": "cursed",
     r"\bterrible\b": "scurvy",
-
     r"\bgoodbye\b": "farewell",
     r"\bbye\b": "fare ye well",
     r"\bgood morning\b": "top o' the mornin'",
     r"\bgood night\b": "fair winds",
     r"\bcheers\b": "yo ho ho",
-
     r"\bchild\b": "young buccaneer",
     r"\bkid\b": "wee lad",
     r"\bboy\b": "cabin boy",
@@ -68,14 +66,12 @@ PIRATE_REPLACEMENTS: Dict[str, str] = {
     r"\bthief\b": "scallywag",
     r"\bcoward\b": "lily-livered dog",
     r"\bvillain\b": "blackheart",
-
     r"\bdo not\b": "don’t ye",
     r"\bdon\'t\b": "don’t ye",
     r"\bgoing\b": "goin’",
     r"\bing\b": "in’",
     r"\bwith\b": "wit’",
     r"\bthem\b": "’em",
-
     r"\bfood\b": "grub",
     r"\bdrink\b": "rum",
     r"\bbeer\b": "ale",
@@ -86,14 +82,12 @@ PIRATE_REPLACEMENTS: Dict[str, str] = {
     r"\bfear\b": "dread",
     r"\bhurry\b": "scurry",
     r"\bcrazy\b": "mad as a hatter",
-
     r"\bstupid\b": "addled",
     r"\bdrunk\b": "three sheets to the wind",
     r"\bcowardly\b": "yellow-bellied",
     r"\blucky\b": "blessed by the sea",
     r"\bunlucky\b": "cursed by Davy Jones",
-    
-    }
+}
 
 # Pirate exclamations that can be added to the end of sentences
 PIRATE_EXCLAMATIONS: List[str] = [

@@ -9,8 +9,8 @@ import random
 import re
 from typing import Callable, Dict, List
 
-from .pirate_data import PIRATE_REPLACEMENTS, PIRATE_EXCLAMATIONS
 from .emoji_data import EMOJI_MAP
+from .pirate_data import PIRATE_EXCLAMATIONS, PIRATE_REPLACEMENTS
 from .shakespeare_data import SHAKESPEARE_REPLACEMENTS
 from .yoda_transformer import YodaTransformer
 
@@ -101,12 +101,12 @@ def mallock_transform(text: str) -> str:
     """
     if not text:
         return text
-        
+
     result = []
     base_address = 0x1000
     max_gap = 1
     addr = base_address
-    
+
     for i, char in enumerate(text):
         gap = random.randint(0, max_gap)
         for _ in range(gap):
@@ -114,11 +114,11 @@ def mallock_transform(text: str) -> str:
             addr += 1
         result.append(f"0x{addr:X}:{char}")
         addr += 1
-    
+
     # Append 'k' only to the final pointer
     if result:
         result[-1] = result[-1] + " k"
-    
+
     return "".join(result)
 
 
@@ -192,23 +192,32 @@ def mock_transform(text: str) -> str:
     """
     if not text.strip():
         return text
-    
+
     # Filler words and expressions
     fillers = [
-        "uhh", "like", "you know", "I mean", "whatever", "umm", 
-        "sort of", "kind of", "basically", "actually", "honestly"
+        "uhh",
+        "like",
+        "you know",
+        "I mean",
+        "whatever",
+        "umm",
+        "sort of",
+        "kind of",
+        "basically",
+        "actually",
+        "honestly",
     ]
-    
+
     # Pauses and hesitations
     pauses = ["...", "... ", " ...", " ... "]
-    
+
     # Split text into words while preserving punctuation
-    words = re.findall(r'\w+|[^\w\s]', text)
+    words = re.findall(r"\w+|[^\w\s]", text)
     if not words:
         return text
-    
+
     result = []
-    
+
     for i, word in enumerate(words):
         # Add the current word/punctuation
         if word.isalpha():
@@ -219,34 +228,34 @@ def mock_transform(text: str) -> str:
                     result.append(", " + filler)
                 else:
                     result.append(filler)
-            
+
             result.append(word)
-            
+
             # 20% chance to add a pause after the word
             if random.random() < 0.20:
                 result.append(random.choice(pauses))
-            
+
             # 15% chance to add a filler after the word
             if random.random() < 0.15 and i < len(words) - 1:  # Not the last word
                 result.append(", " + random.choice(fillers))
         else:
             # Handle punctuation
             result.append(word)
-    
+
     # Join and clean up spacing
     final_text = "".join(result)
-    
+
     # Clean up multiple spaces and awkward punctuation
-    final_text = re.sub(r'\s+', ' ', final_text)  # Multiple spaces to single
-    final_text = re.sub(r'\s*,\s*,', ',', final_text)  # Double commas
-    final_text = re.sub(r'\s*\.\s*\.', '.', final_text)  # Double periods (not ellipsis)
+    final_text = re.sub(r"\s+", " ", final_text)  # Multiple spaces to single
+    final_text = re.sub(r"\s*,\s*,", ",", final_text)  # Double commas
+    final_text = re.sub(r"\s*\.\s*\.", ".", final_text)  # Double periods (not ellipsis)
     final_text = final_text.strip()
-    
+
     # 30% chance to add a trailing filler at the end
     if random.random() < 0.30:
         trailing_fillers = ["whatever...", "you know?", "I guess...", "or something..."]
         final_text += ", " + random.choice(trailing_fillers) + ""
-    
+
     return final_text
 
 
@@ -307,6 +316,7 @@ def emoji_transform(text: str) -> str:
 # Create a global Yoda transformer instance for efficiency
 _yoda_transformer = None
 
+
 def yoda_transform(text: str) -> str:
     """
     Transform text to Yoda-style speech patterns using advanced linguistic analysis.
@@ -326,7 +336,7 @@ def yoda_transform(text: str) -> str:
     global _yoda_transformer
     if _yoda_transformer is None:
         _yoda_transformer = YodaTransformer()
-    
+
     return _yoda_transformer.transform(text, add_wisdom=True)
 
 

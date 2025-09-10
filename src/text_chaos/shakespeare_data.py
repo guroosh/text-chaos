@@ -20,7 +20,6 @@ SHAKESPEARE_REPLACEMENTS: Dict[str, str] = {
     r"\bhe\b": "he",
     r"\bshe\b": "she",
     r"\bit\b": "it",
-
     # Verbs (present / past / modal)
     r"\bare\b": "art",
     r"\bis\b": "is",
@@ -54,7 +53,6 @@ SHAKESPEARE_REPLACEMENTS: Dict[str, str] = {
     r"\brun\b": "runnest",
     r"\bfight\b": "fightest",
     r"\bhelp\b": "helpest",
-
     # Nouns
     r"\bfriend\b": "companion",
     r"\bfriends\b": "companions",
@@ -71,7 +69,6 @@ SHAKESPEARE_REPLACEMENTS: Dict[str, str] = {
     r"\bhome\b": "dwelling",
     r"\bhouse\b": "abode",
     r"\broom\b": "chamber",
-
     # Adjectives
     r"\bgreat\b": "mighty",
     r"\bgood\b": "fair",
@@ -92,7 +89,6 @@ SHAKESPEARE_REPLACEMENTS: Dict[str, str] = {
     r"\bcowardly\b": "craven",
     r"\bfearful\b": "timorous",
     r"\bdead\b": "departed",
-
     # Adverbs
     r"\bquickly\b": "anon",
     r"\bsuddenly\b": "forthwith",
@@ -105,7 +101,6 @@ SHAKESPEARE_REPLACEMENTS: Dict[str, str] = {
     r"\bhere\b": "hither",
     r"\bthere\b": "thither",
     r"\bwhere\b": "whither",
-
     # Expressions / Interjections
     r"\byes\b": "aye",
     r"\bno\b": "nay",

@@ -66,8 +66,7 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bwork\b": "💼",
     r"\btravel\b": "✈️",
     r"\bshopping\b": "🛒",
-    r"\bcooking\b": "👨‍🍳",\
-    
+    r"\bcooking\b": "👨‍🍳",
     # ❤️ Emotions
     r"\blove\b": "❤️",
     r"\bheart\b": "❤️",
@@ -104,7 +103,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bparty\b": "🥳",
     r"\bcelebrate\b": "🎉",
     r"\bbirthday\b": "🎂",
-
     # 🍔 Food & Drinks
     r"\bpizza\b": "🍕",
     r"\bslice\b": "🍕",
@@ -150,7 +148,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bdrink\b": "🥤",
     r"\bmilk\b": "🥛",
     r"\bwater\b": "💧",
-
     # 🐶 Animals
     r"\bdog\b": "🐶",
     r"\bpuppy\b": "🐶",
@@ -190,7 +187,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\blizard\b": "🦎",
     r"\bturtle\b": "🐢",
     r"\bdragon\b": "🐉",
-
     # 🌳 Nature & Weather
     r"\bsun\b": "☀️",
     r"\bsunshine\b": "☀️",
@@ -224,7 +220,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bvolcano\b": "🌋",
     r"\bdesert\b": "🏜️",
     r"\bisland\b": "🏝️",
-
     # 📱 Objects & Things
     r"\bphone\b": "📱",
     r"\bcell\b": "📱",
@@ -268,7 +263,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bfilm\b": "🎬",
     r"\bmap\b": "🗺️",
     r"\bflag\b": "🚩",
-
     # 🏃 Activities / Sports
     r"\brun\b": "🏃",
     r"\brunning\b": "🏃",
@@ -310,7 +304,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bwork\b": "💼",
     r"\bjob\b": "💼",
     r"\bmeeting\b": "📅",
-
     # 🎄 Holidays & Celebrations
     r"\bchristmas\b": "🎄",
     r"\bxmas\b": "🎄",
@@ -327,7 +320,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bvalentine\b": "❤️",
     r"\bhalloween\b": "🎃",
     r"\bpumpkin\b": "🎃",
-
     # 🔥 Symbols & Misc
     r"\bok\b": "👌",
     r"\byes\b": "✅",
@@ -364,7 +356,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bqueen\b": "👸",
     r"\bprince\b": "🤴",
     r"\bprincess\b": "👸",
-
     # 🚗 Vehicles & Transport
     r"\bcar\b": "🚗",
     r"\bcars\b": "🚗",
@@ -392,7 +383,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bmotorcycle\b": "🏍️",
     r"\bscooter\b": "🛵",
     r"\bskateboard\b": "🛹",
-
     # 👩‍🔧 Professions
     r"\bdoctor\b": "👨‍⚕️",
     r"\bnurse\b": "👩‍⚕️",
@@ -423,7 +413,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bqueen\b": "👸",
     r"\bprince\b": "🤴",
     r"\bprincess\b": "👸",
-
     # 🧙 Fantasy / Myth
     r"\bwizard\b": "🧙",
     r"\bwitch\b": "🧙‍♀️",
@@ -450,7 +439,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bpegasus\b": "🐎",
     r"\bphoenix\b": "🔥",
     r"\bgoblin\b": "👺",
-
     # 🤟 Gestures & Body
     r"\bhand\b": "✋",
     r"\bwave\b": "👋",
@@ -482,7 +470,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\blungs\b": "🫁",
     r"\bbone\b": "🦴",
     r"\btooth\b": "🦷",
-
     # 🛠️ More Objects
     r"\bhammer\b": "🔨",
     r"\baxe\b": "🪓",
@@ -519,7 +506,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bunlock\b": "🔓",
     r"\bchain\b": "⛓️",
     r"\bmagnet\b": "🧲",
-
     # 🏳️ Flags (just a few popular)
     r"\busa\b": "🇺🇸",
     r"\bamerica\b": "🇺🇸",
@@ -535,7 +521,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\baustralia\b": "🇦🇺",
     r"\bbrazil\b": "🇧🇷",
     r"\bmexico\b": "🇲🇽",
-
     # 🎽 Sports & Games
     r"\bfootball\b": "🏈",
     r"\brugby\b": "🏉",
@@ -555,7 +540,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bchess\b": "♟️",
     r"\bmedal\b": "🥇",
     r"\btrophy\b": "🏆",
-
     # 👕 Clothes
     r"\bshirt\b": "👕",
     r"\btshirt\b": "👕",
@@ -582,7 +566,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bwatch\b": "⌚",
     r"\bglasses\b": "👓",
     r"\bsunglasses\b": "🕶️",
-
     # ☁️ Weather
     r"\brain\b": "🌧️",
     r"\bstorm\b": "⛈️",
@@ -594,7 +577,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\btornado\b": "🌪️",
     r"\bhurricane\b": "🌀",
     r"\bvolcano\b": "🌋",
-
     # 🎉 Holidays & Celebrations
     r"\bbirthday\b": "🎂",
     r"\bparty\b": "🥳",
@@ -610,7 +592,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bramadan\b": "🕌",
     r"\bhalloween\b": "🎃",
     r"\bthanksgiving\b": "🦃",
-
     # 🚸 Signs & Transport
     r"\bstop\b": "🛑",
     r"\btraffic\b": "🚦",
@@ -625,7 +606,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bpost\b": "📮",
     r"\bmailbox\b": "📬",
     r"\bpackage\b": "📦",
-
     # 🔣 Symbols
     r"\bcheck\b": "✔️",
     r"\bok\b": "🆗",
@@ -646,7 +626,6 @@ EMOJI_MAP: Dict[str, str] = {
     r"\bright\b": "➡️",
     r"\bstar\b": "⭐",
     r"\bmoon\b": "🌙",
-
     # 🎲 Fun & Misc
     r"\bdice\b": "🎲",
     r"\bcards\b": "🃏",
